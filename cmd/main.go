@@ -28,9 +28,7 @@ func main() {
 	}
 
 	// Start server
-	if err := r.Run(":8080"); err != nil {
+	if err := r.Run(":" + port); err != nil {
 		log.Fatalf("Failed to run server: %v", err)
 	}
 }
-
-// expernal postgresql://pastebindb_pncl_user:Psbw8xYEQJfYrmt6X4nrw7PsKF6iBIJI@dpg-d0hgtjh5pdvs73egf4o0-a.oregon-postgres.render.com/pastebindb_pncl
