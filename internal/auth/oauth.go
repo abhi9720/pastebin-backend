@@ -1,10 +1,8 @@
 package auth
 
 import (
-	"log"
 	"os"
 
-	"github.com/joho/godotenv"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
 )
@@ -12,13 +10,6 @@ import (
 var GoogleOAuthConfig *oauth2.Config
 
 func init() {
-	var err error;
-    if os.Getenv("RENDER") == "" {
-        err = godotenv.Load()
-        if err != nil {
-            log.Fatal("Error loading .env file")
-        }
-    }
     
     GoogleOAuthConfig = &oauth2.Config{
         ClientID:     os.Getenv("GOOGLE_CLIENT_ID"),
