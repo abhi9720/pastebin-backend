@@ -11,23 +11,26 @@ import (
 )
 
 func main() {
-	    // Load .env only in local development
     if os.Getenv("RENDER") == "" {
         if err := godotenv.Load(); err != nil {
             log.Fatal("Error loading .env file")
         }
     }
 
+
+
+	port := os.Getenv("PORT")
+    if port == "" {
+        port = "8080"
+    }
+
+	log.Printf("PORT environment variable: %s", port)
+
     database.Connect()
     database.Migrate()
 
     r := router.SetupRouter()
     cron.StartUploadCleanupJob()
-
-    port := os.Getenv("PORT")
-    if port == "" {
-        port = "8080" // Default to 8080 for local development
-    }
 
     log.Printf("Server running on port %s", port)
 
