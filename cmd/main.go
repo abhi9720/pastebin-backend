@@ -11,18 +11,19 @@ import (
 )
 
 func main() {
-    if os.Getenv("RENDER") == "" {
-        if err := godotenv.Load(); err != nil {
-            log.Fatal("Error loading .env file")
-        }
+    
+	envPath := "/etc/secrets/.env"
+    if _, err := os.Stat(envPath); os.IsNotExist(err) {
+        envPath = ".env"
     }
 
-
-
+    // Load environment variables from the .env file
+    if err := godotenv.Load(envPath); err != nil {
+        log.Printf("No .env file found at %s", envPath)
+    }
+	
 	port := os.Getenv("PORT")
-    if port == "" {
-        port = "8080"
-    }
+  
 
 	log.Printf("PORT environment variable: %s", port)
 
