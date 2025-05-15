@@ -12,9 +12,12 @@ import (
 var GoogleOAuthConfig *oauth2.Config
 
 func init() {
-	err := godotenv.Load()
-    if err != nil {
-        log.Fatal("Error loading .env file")
+	var err error;
+    if os.Getenv("RENDER") == "" {
+        err = godotenv.Load()
+        if err != nil {
+            log.Fatal("Error loading .env file")
+        }
     }
     
     GoogleOAuthConfig = &oauth2.Config{

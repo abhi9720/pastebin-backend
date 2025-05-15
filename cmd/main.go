@@ -11,10 +11,13 @@ import (
 )
 
 func main() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
+	var err error;
+    if os.Getenv("RENDER") == "" {
+        err = godotenv.Load()
+        if err != nil {
+            log.Fatal("Error loading .env file")
+        }
+    }
 
 	database.Connect()
 	database.Migrate()
