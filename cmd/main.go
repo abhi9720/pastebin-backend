@@ -11,27 +11,28 @@ import (
 )
 
 func main() {
-	var err error;
+	    // Load .env only in local development
     if os.Getenv("RENDER") == "" {
-        err = godotenv.Load()
-        if err != nil {
+        if err := godotenv.Load(); err != nil {
             log.Fatal("Error loading .env file")
         }
     }
 
-	database.Connect()
-	database.Migrate()
+    database.Connect()
+    database.Migrate()
 
-	r := router.SetupRouter()
-	cron.StartUploadCleanupJob()
+    r := router.SetupRouter()
+    cron.StartUploadCleanupJob()
 
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "8080" // Default to 8080 if not provided (for local development)
-	}
+    port := os.Getenv("PORT")
+    if port == "" {
+        port = "8080" // Default to 8080 for local development
+    }
 
-	// Start server
-	if err := r.Run(":" + port); err != nil {
-		log.Fatalf("Failed to run server: %v", err)
-	}
+    log.Printf("Server running on port %s", port)
+
+    // Explicitly bind to 0.0.0.0
+    if err := r.Run("0.0.0.0:" + port); err != nil {
+        log.Fatalf("Failed to run server: %v", err)
+    }
 }
